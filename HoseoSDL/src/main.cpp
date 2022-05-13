@@ -1,4 +1,5 @@
 #include "Game.h" 
+#include "main.h"
 #include <iostream>
 
 const int FPS = 60;
