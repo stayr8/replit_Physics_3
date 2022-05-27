@@ -4,17 +4,23 @@
 #include "Vehicle.h"
 #include <math.h>
 
-Vehicle::Vehicle(int x, int y) : maxSpeed(4), maxForce(0.25f), r(16)
+Vehicle::Vehicle(int x, int y) : maxSpeed(4), maxForce(0.25f), r(16), v4(0)
 {
   pos = new Vector2D(x,y);
   vel = new Vector2D(0,0);
   acc = new Vector2D(0,0);
   force = new Vector2D(0,0);
+
   rd1 = new Vector2D(1,1);
   rd2 = new Vector2D(1,1);
   rd3 = new Vector2D(1,1);
   rotate = new Vector2D(0,0);
-  
+
+  tal = new Vector2D(0, 0);
+  prediction = new Vector2D(0, 0);
+  v3 = new Vector2D(0, 0);
+  pursuit = new Vector2D(0, 0);
+  init_vehicle = new Vector2D(0, 0);
 }
 
 void Vehicle::update() 
@@ -42,6 +48,9 @@ void Vehicle::draw(SDL_Renderer* renderer)
    rd3->getX() + pos->getX() , rd3->getY() + pos->getY() , 
    255, 255, 255, 255);
 
+ 
+ lineRGBA(renderer, init_vehicle->getX(), init_vehicle->getY(), tal->getX(), tal->getY(), 200, 0, 0, 150);
+ filledCircleRGBA(renderer, tal->getX(), tal->getY(), r, 200, 0, 0, 150);
 }
 
 Vector2D Vehicle::Radian(float x ,float y, float radian)
@@ -56,18 +65,43 @@ Vector2D Vehicle::Radian(float x ,float y, float radian)
 
 void Vehicle::applyForce(Vector2D* f)
 {
-  *acc += *force;
+  *acc += *f;
 }
 
-void Vehicle::seek(Vector2D* target)
+Vector2D Vehicle::flee(Vector2D* target)
+{
+    return seek(target) * -1;
+}
+
+Vector2D Vehicle::seek(Vector2D* target)
 {
   *force = *target - *pos;
   force->normalize();
   *force *= maxSpeed;
   *force -= *vel;
   force->limit(maxForce);
-  applyForce(force);
+ 
+  return *force;
 }
+
+
+Vector2D Vehicle::pursue(Vehicle* vehicle)
+{
+    *init_vehicle = *vehicle->pos;
+
+    *tal = *vehicle->pos;
+    *prediction = *vehicle->vel;
+
+    *v3 = *tal - *pos;
+    float a = v3->length();
+    *prediction *= a / 30;
+
+    *tal += *prediction;
+
+    return seek(tal);
+}
+
+
 
 void Vehicle::edges()
 {
