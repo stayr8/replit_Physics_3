@@ -3,25 +3,30 @@
 #include "main.h"
 #include "Vector2D.h"
 #include "Vehicle.h"
-#include "Target.h"
+#include "BaseGameEntity.h"
+#include "SteeringBehavior.h"
+#include <vector>
 
 
-class Walker 
+class Walker
 {
-  
+
 public:
-  Walker();
-  void draw(SDL_Renderer* renderer);
-  void update();
-  
+	Walker();
+	void draw(SDL_Renderer* renderer);
+	void update();
+	
 
 private:
-  Vehicle* pursuer;
-  Target* target;
+	Vector2D* Dir;
+	Vector2D* steering;
+	Vector2D* Force;
 
-  Vector2D* d;
-  Vector2D* steering;
+	Vehicle* m_vehicle;
 
-  
-  bool pause;
+	SteeringBehavior* m_St;
+
+	std::vector<BaseGameEntity*> m_BG;
+
+	
 };

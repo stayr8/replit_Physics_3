@@ -142,18 +142,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\BaseGameEntity.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\InputHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Target.cpp" />
+    <ClCompile Include="src\SteeringBehavior.cpp" />
     <ClCompile Include="src\Vehicle.cpp" />
     <ClCompile Include="src\Walker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\BaseGameEntity.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\InputHandler.h" />
     <ClInclude Include="include\main.h" />
-    <ClInclude Include="include\Target.h" />
+    <ClInclude Include="include\SteeringBehavior.h" />
     <ClInclude Include="include\Vector2D.h" />
     <ClInclude Include="include\Vehicle.h" />
     <ClInclude Include="include\Walker.h" />

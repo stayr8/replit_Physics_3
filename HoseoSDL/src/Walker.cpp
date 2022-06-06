@@ -5,47 +5,43 @@
 #include "InputHandler.h"
 #include <random>
 
-std::random_device rd;
-
-std::mt19937 gen(rd());
-
-std::uniform_int_distribution<int> dis(0, 600);
-std::uniform_int_distribution<int> dis2(0, 400);
-
-Walker::Walker() 
+Walker::Walker()
 {
-	target = new Target(WIDTH - 50, HEIGHT - 50);
-	pursuer = new Vehicle(50,50);
-
-	d = new Vector2D(0, 0);
+	Dir = new Vector2D(0, 0);
 	steering = new Vector2D(0, 0);
-
-	pause = false;
+	m_vehicle = new Vehicle(100, 100);
+	m_St = new SteeringBehavior(200, 200);
+	Force = new Vector2D(0, 0);
+	
+	m_BG.push_back(new BaseGameEntity(300, 300, 32));
+	
 }
 
-void Walker::update() 
+void Walker::update()
 {
-	*steering = pursuer->pursue(target);
-	pursuer->applyForce(steering);
+	*steering = m_vehicle->arrive(Dir);
+	m_vehicle->applyForce(steering);
+	m_vehicle->update();
 
-	*d = pursuer->getPos() - target->getPos();
-	float d2 = d->length();
-	if (d2 < pursuer->getR() + target->getR())
-	{
-		target = new Target(dis(gen), dis2(gen));
-	}
+	m_BG[0]->update();
 
-	pursuer->update();
-
-	target->update();
-	target->applyForce(steering);
-
+	
+	*Force = m_St->Hide(m_vehicle, m_BG);
+	m_St->applyForce(Force);
+	m_St->update();
+	
+	Dir = TheInputHandler::Instance()->getMousePosition();
 }
 
 void Walker::draw(SDL_Renderer* renderer)
 {
-
-	pursuer->draw(renderer);
-	target->draw(renderer);
+	m_BG[0]->draw(renderer);
+	filledCircleRGBA(renderer, Dir->getX(), Dir->getY(), 15, 255, 255, 0, 200);
+	m_vehicle->draw(renderer);
+	m_St->draw(renderer);
+	
+	//m_baseGameEntity->draw(renderer);
 }
+
+
 

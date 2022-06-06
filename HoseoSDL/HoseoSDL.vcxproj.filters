@@ -30,7 +30,10 @@
     <ClCompile Include="src\InputHandler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Target.cpp">
+    <ClCompile Include="src\SteeringBehavior.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseGameEntity.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +56,10 @@
     <ClInclude Include="include\main.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\Target.h">
+    <ClInclude Include="include\SteeringBehavior.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BaseGameEntity.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
